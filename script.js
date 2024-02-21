@@ -3,7 +3,6 @@ function ajouterAuPanier(element) {
 
     panier.push(element);
     localStorage.setItem('panier', JSON.stringify(panier));
-    alert("click");
 }
 
 function newElement(id, name, price) {
@@ -14,4 +13,25 @@ function newElement(id, name, price) {
     };
     return new_product;
 }
-ajouterAuPanier(newElement(1, "mug", 34.99));
+
+function get_article_nb(id)
+{
+    let panier = JSON.parse(localStorage.getItem('panier'));
+    let article_nb = 0;
+
+    for (let i = 0; i < panier.length; i++) {
+        if (panier[i].id == id) {
+            article_nb += 1;
+        }
+    }
+    return article_nb;
+}
+window.onload = function() {
+    let articleCountSpan = document.getElementById("article-count");
+    let totalCountSpan = document.getElementById("total-count");
+    let articleCount = get_article_nb(1);//a changer
+
+    articleCountSpan.textContent = articleCount;
+    totalCountSpan.textContent = articleCount * 34.99;
+
+};

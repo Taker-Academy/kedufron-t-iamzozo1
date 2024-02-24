@@ -129,6 +129,10 @@ nav {
     flex-direction: column;
 }
 
+.panier-container > div {
+    visibility: hidden;
+}
+
 .panier-item {
     display: flex;
 }
@@ -143,6 +147,14 @@ nav {
     display: inline;
 }
 
+#empty-cart {
+    text-align: center;
+}
+
+#empty-cart > img {
+    max-width: 20%;
+    max-height: 25%;
+}
 footer {
     text-align: center;
 }

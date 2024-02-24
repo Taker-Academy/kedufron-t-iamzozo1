@@ -41,23 +41,28 @@ function show_element(id) {
 
 function display_good_ids() {
     let panier = JSON.parse(localStorage.getItem('panier'));
+    let articleCountSpan;
+    let totalCountSpan;
+    let articleCount;
+    let priceSpan;
 
-    // console.log("starting ")
     if (panier == null) {
         show_element("empty-cart");
         return;
     }
-    console.log("panier length:", panier.length);
-    for (let i = 0; i < panier.length; i++)
+    for (let i = 0; i < panier.length; i++) {
         show_element("article-" + panier[i].id);
+        articleCountSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-count");
+        totalCountSpan = document.querySelector("#article-" + panier[i].id +" > div > p > #total-count");
+        priceSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-price");
+        articleCount = get_article_nb(panier[i].id);
+        articleCountSpan.textContent = articleCount;
+        priceSpan.textContent = panier[i].prix + "€";
+        totalCountSpan.textContent = articleCount * panier[i].prix + "€";
+    }
+        
 }
 
 window.onload = function() {
-    let articleCountSpan = document.getElementById("article-count");
-    let totalCountSpan = document.getElementById("total-count");
-    let articleCount = get_article_nb(0);//a changer
-
-    articleCountSpan.textContent = articleCount;
-    totalCountSpan.textContent = articleCount * 34.99;
     display_good_ids();
 };

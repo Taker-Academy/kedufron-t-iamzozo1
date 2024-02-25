@@ -49,8 +49,29 @@
         </div>
         <div class="buy-container">
             <h3>Total <span id="command-cost">0</span>€</h3>
-            <button></button>
+            <button>Passer au paiement</button>
         </div>
+        <form id="contactForm" class="data-form">
+            <div>
+              <label for="firstName">Prénom:</label><br>
+              <input type="text" id="firstName" name="firstName" required><br>
+            </div>
+            <div>
+              <label for="lastName">Nom:</label><br>
+              <input type="text" id="lastName" name="lastName" required><br>
+            </div>
+            <div>
+              <label for="email">Email:</label><br>
+              <input type="email" id="email" name="email" required><br>
+            </div>
+            <div>
+              <label for="address">Adresse:</label><br>
+              <input type="text" id="address" name="address" required><br>
+            </div>
+            <div>
+              <input type="submit" value="Envoyer" id="submit_button">
+            </div>
+          </form>
     </div>
     <footer>
         <p>Je crois c'est le footer ici</p>

@@ -125,6 +125,21 @@ function display_good_ids() {
         
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    function handleFormSubmit(event) {
+        event.preventDefault();
+        
+        const formData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            address: document.getElementById('address').value
+        };
+        console.log(formData);
+    }
+    document.getElementById('submit_button').addEventListener('click', handleFormSubmit);
+});
+
 window.onload = function() {
     if (is_good_page("/panier.html"))
         display_good_ids();

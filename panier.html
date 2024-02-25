@@ -27,8 +27,8 @@
                 <p class="cart-item-title">Arsenal Mug</p>
                 <p>Quantité: <span id="article-count">0</span></p>
                 <div class="quantity-selector">
-                    <button><img src="assets/logos/plus.png" alt="logo plus"/></button>
-                    <button><img src="assets/logos/minus.png" alt="logo minus"/></button>
+                    <button onclick="ajouterAuPanier(newElement(ARSENAL, 'arsenal mug', 34.99))"><img src="assets/logos/plus.png" alt="logo plus"/></button>
+                    <button onclick="remove_one(ARSENAL)"><img id="rm-button-0" src="assets/logos/minus.png" alt="logo minus"/></button>
                 </div>
                 <p>Prix à l'unité: <span id="article-price">0</span></p>
                 <p>Total: <span id="total-count">0</span></p>
@@ -40,12 +40,16 @@
                 <p class="cart-item-title">Chelsea Mug</p>
                 <p>Quantité: <span id="article-count">0</span></p>
                 <div class="quantity-selector">
-                    <button><img src="assets/logos/plus.png" alt="logo plus"/></button>
-                    <button><img src="assets/logos/minus.png" alt="logo minus"/></button>
+                    <button onclick="ajouterAuPanier(newElement(CHELSEA, 'arsenal mug', 34.99))"><img src="assets/logos/plus.png" alt="logo plus"/></button>
+                    <button onclick="remove_one(CHELSEA)"><img id="rm-button-1" src="assets/logos/minus.png" alt="logo minus"/></button>
                 </div>
                 <p>Prix à l'unité: <span id="article-price">0</span></p>
                 <p>Total: <span id="total-count">0</span></p>
             </div>
+        </div>
+        <div class="buy-container">
+            <h3>Total <span id="command-cost">0</span>€</h3>
+            <button></button>
         </div>
     </div>
     <footer>

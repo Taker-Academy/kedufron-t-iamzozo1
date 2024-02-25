@@ -1,6 +1,7 @@
 const ARSENAL = 0;
 const CHELSEA = 1;
 
+//check if the given element id is present in the cart
 function element_exist(panier, element_id) {
     if (panier.length <= 0)
         return 0;
@@ -11,22 +12,38 @@ function element_exist(panier, element_id) {
     return 0;
 }
 
+//add an item in the cart in the local storage
 function ajouterAuPanier(element) {
     let panier = JSON.parse(localStorage.getItem('panier')) || [];
 
     if (element_exist(panier, element.id)) {
         for (let i = 0; i < panier.length; i++) {
-            console.log("in the loop", panier[i].id, "element: ", element.id);
             if (panier[i].id == element.id) {
-                console.log("trying to add to panier: ", panier[i].amount);
                 panier[i].amount += 1;
             }
         }
     } else
         panier.push(element);
     localStorage.setItem('panier', JSON.stringify(panier));
+    display_good_ids();
 }
 
+//remove an element from the cart
+function remove_one(element_id) {
+    let panier = JSON.parse(localStorage.getItem('panier'));
+
+    for (let i = 0; i < panier.length; i++) {
+        if (panier[i].id == element_id) {
+            panier[i].amount -= 1;
+            localStorage.setItem('panier', JSON.stringify(panier));
+            display_good_ids();
+            return true;
+        }
+    }
+    return false;
+}
+
+//add a new element in the cart
 function newElement(id, name, price) {
     let new_product = {
         id: id,
@@ -54,9 +71,27 @@ function get_article_nb(id)
 function show_element(id) {
     let element = document.getElementById(id);
 
-    element.style.visibility = "visible";
+    if (id == "empty-cart")
+        element.style.display = "block";
+    else
+        element.style.display = "flex";
 }
 
+function hide_element(id) {
+    let element = document.getElementById(id);
+
+    element.style.display = "none";
+}
+
+function is_empty(panier) {
+    if (panier == null)
+        return true;
+    for (let i = 0; i < panier.length; i++) {
+        if (panier[i].amount > 0)
+            return false;
+    }
+    return true;
+}
 function is_good_page(page) {
     return window.location.pathname === page;
 }
@@ -68,12 +103,17 @@ function display_good_ids() {
     let articleCount;
     let priceSpan;
 
-    if (panier == null) {
+    if (is_empty(panier)) {
         show_element("empty-cart");
-        return;
     }
+    if (panier == null)
+        return;
     for (let i = 0; i < panier.length; i++) {
-        show_element("article-" + panier[i].id);
+        if (panier[i].amount > 0)
+            show_element("article-" + panier[i].id);
+        else
+            hide_element("article-" + panier[i].id);
+        console.log("aùount:", panier[i].amount);
         articleCountSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-count");
         totalCountSpan = document.querySelector("#article-" + panier[i].id +" > div > p > #total-count");
         priceSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-price");

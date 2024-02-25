@@ -130,7 +130,7 @@ nav {
 }
 
 .panier-container > div {
-    visibility: hidden;
+    display: none;
 }
 
 .panier-item {

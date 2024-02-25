@@ -47,11 +47,14 @@
                 <p>Total: <span id="total-count">0</span></p>
             </div>
         </div>
-        <div class="buy-container">
+        <div class="buy-container" id="buy-wrapper">
             <h3>Total <span id="command-cost">0</span>€</h3>
-            <button>Passer au paiement</button>
+            <button onclick="show_element('contactForm')">Passer au paiement</button>
         </div>
         <form id="contactForm" class="data-form">
+            <img src="assets/logos/mug-shop-logo.png" alt="mug shop logo"/>
+            <h2>Formulaire de contact</h2>
+            <h4>Veuillez remplir vos coordonnées</h4>
             <div>
               <label for="firstName">Prénom:</label><br>
               <input type="text" id="firstName" name="firstName" required><br>

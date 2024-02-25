@@ -108,6 +108,7 @@ function display_good_ids() {
     }
     if (panier == null)
         return;
+    show_element("buy-wrapper");
     for (let i = 0; i < panier.length; i++) {
         if (panier[i].amount > 0)
             show_element("article-" + panier[i].id);
@@ -128,7 +129,7 @@ function display_good_ids() {
 document.addEventListener("DOMContentLoaded", function() {
     function handleFormSubmit(event) {
         event.preventDefault();
-        
+
         const formData = {
             firstName: document.getElementById('firstName').value,
             lastName: document.getElementById('lastName').value,

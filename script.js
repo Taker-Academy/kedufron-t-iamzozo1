@@ -101,6 +101,7 @@ function is_good_page(page) {
     return window.location.pathname === page;
 }
 
+// function to display only the articles in the cart in the 'panier pager'
 function display_good_ids() {
     let panier = JSON.parse(localStorage.getItem('panier'));
     let articleCountSpan;
@@ -133,23 +134,73 @@ function display_good_ids() {
         
 }
 
+//interactc with the API
+function create_command(orderDetails) {
+    const url = 'https://api.kedufront.juniortaker.com/order/';
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderDetails)
+    };
+
+    axios.post(url, orderDetails)
+        .then(response => {
+            console.log('Order created successfully:', response.data);
+            alert("Commande passée avec succès.")
+        })
+        .catch(error => {
+            alert("Erreur dans la création de la commande.");
+            if (error.response) {
+                console.error('Error creating order:', error.response.data);
+            } else if (error.request) {
+                console.error('Error creating order: No response received');
+            } else {
+                console.error('Error creating order:', error.message);
+            }
+        });
+}
+
+function get_cart() {
+    let panier = JSON.parse(localStorage.getItem('panier'));
+    let cart;
+    let cart_item = {
+        id: 0,
+        amount: 0
+    }
+    if (panier == null)
+        return panier;
+    for (let i = 0; i < panier.length; i++) {
+        cart_item.id = panier[i].id;
+        cart_item.amount = panier[i].amount;
+        cart.push(cart_item);
+    }
+    return cart;
+}
+
+//get the information about the client
+function handleFormSubmit(event) {
+    event.preventDefault();
+
+    console.log("command start");
+    const formData = {
+        email: document.getElementById('email').value,
+        name: document.getElementById('lastName').value,
+        address: document.getElementById('address').value,
+        cart: get_cart()
+    };
+    create_command(formData);
+}
+
+function setupFormEventListener() {
+    document.getElementById('submit_button').addEventListener('click', handleFormSubmit);
+}
 
 window.onload = function() {
     if (is_good_page("/panier.html")) {
         display_good_ids();
-        document.addEventListener("DOMContentLoaded", function() {
-            function handleFormSubmit(event) {
-                event.preventDefault();
-        
-                const formData = {
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
-                    email: document.getElementById('email').value,
-                    address: document.getElementById('address').value
-                };
-                console.log(formData);
-            }
-            document.getElementById('submit_button').addEventListener('click', handleFormSubmit);
-        });
+        console.log("before waiting event");
+        document.addEventListener("DOMContentLoaded", setupFormEventListener);
     }
 };

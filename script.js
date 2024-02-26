@@ -1,5 +1,5 @@
-const ARSENAL = 0;
-const CHELSEA = 1;
+const ARSENAL = 1;
+const CHELSEA = 2;
 
 //check if the given element id is present in the cart
 function element_exist(panier, element_id) {
@@ -16,6 +16,7 @@ function element_exist(panier, element_id) {
 function ajouterAuPanier(element) {
     let panier = JSON.parse(localStorage.getItem('panier')) || [];
 
+    console.log("adding this element:", element.id);
     if (element_exist(panier, element.id)) {
         for (let i = 0; i < panier.length; i++) {
             if (panier[i].id == element.id) {
@@ -44,11 +45,13 @@ function remove_one(element_id) {
 }
 
 //add a new element in the cart
-function newElement(id, name, price) {
+function newElement(id, name, price, img) {
     let new_product = {
         id: id,
-        nom: name,
-        prix: price,
+        name: name,
+        price: price,
+        createdIn: new Date(),
+        image: img,
         amount: 1
     };
     return new_product;
@@ -71,6 +74,8 @@ function get_article_nb(id)
 function show_element(id) {
     let element = document.getElementById(id);
 
+    if (element == null)
+        return;
     if (id == "empty-cart")
         element.style.display = "block";
     else
@@ -103,6 +108,8 @@ function display_good_ids() {
     let articleCount;
     let priceSpan;
 
+    if (!is_good_page("/panier.html"))
+        return;
     if (is_empty(panier)) {
         show_element("empty-cart");
     }
@@ -114,34 +121,35 @@ function display_good_ids() {
             show_element("article-" + panier[i].id);
         else
             hide_element("article-" + panier[i].id);
-        console.log("aùount:", panier[i].amount);
+        console.log("aùount:", panier[i].amount, "| id=", panier[i].id);
         articleCountSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-count");
         totalCountSpan = document.querySelector("#article-" + panier[i].id +" > div > p > #total-count");
         priceSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-price");
         articleCount = get_article_nb(panier[i].id);
         articleCountSpan.textContent = articleCount;
-        priceSpan.textContent = panier[i].prix + "€";
-        totalCountSpan.textContent = articleCount * panier[i].prix + "€";
+        priceSpan.textContent = panier[i].price + "€";
+        totalCountSpan.textContent = articleCount * panier[i].price + "€";
     }
         
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    function handleFormSubmit(event) {
-        event.preventDefault();
-
-        const formData = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            email: document.getElementById('email').value,
-            address: document.getElementById('address').value
-        };
-        console.log(formData);
-    }
-    document.getElementById('submit_button').addEventListener('click', handleFormSubmit);
-});
 
 window.onload = function() {
-    if (is_good_page("/panier.html"))
+    if (is_good_page("/panier.html")) {
         display_good_ids();
+        document.addEventListener("DOMContentLoaded", function() {
+            function handleFormSubmit(event) {
+                event.preventDefault();
+        
+                const formData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    address: document.getElementById('address').value
+                };
+                console.log(formData);
+            }
+            document.getElementById('submit_button').addEventListener('click', handleFormSubmit);
+        });
+    }
 };

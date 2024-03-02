@@ -57,6 +57,7 @@ function newElement(id, name, price, img) {
     return new_product;
 }
 
+//return the quantity of the article with the given id
 function get_article_nb(id)
 {
     let panier = JSON.parse(localStorage.getItem('panier'));
@@ -97,6 +98,7 @@ function is_empty(panier) {
     }
     return true;
 }
+
 function is_good_page(page) {
     return window.location.pathname === page;
 }
@@ -183,19 +185,30 @@ function get_cart() {
 function handleFormSubmit(event) {
     event.preventDefault();
 
-    console.log("command start");
+    // Get form data
     const formData = {
-        email: document.getElementById('email').value,
         name: document.getElementById('lastName').value,
-        address: document.getElementById('address').value,
-        cart: get_cart()
+        email: document.getElementById('email').value,
+        address: document.getElementById('address').value
     };
+
+    // Do something with the form data (e.g., send it to a server)
+    console.log("Form data:", formData);
     create_command(formData);
+
+    // Reset the form after submission (optional)
+    document.getElementById('contactForm').reset();
 }
 
+// Function to setup event listener for form submission
 function setupFormEventListener() {
-    document.getElementById('submit_button').addEventListener('click', handleFormSubmit);
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', handleFormSubmit);
 }
+
+// Wait for the DOM content to load before attaching event listener
+document.addEventListener("DOMContentLoaded", setupFormEventListener);
+
 
 window.onload = function() {
     if (is_good_page("/panier.html")) {
@@ -204,3 +217,7 @@ window.onload = function() {
         document.addEventListener("DOMContentLoaded", setupFormEventListener);
     }
 };
+
+
+//need to add total price
+//could add total price on every page too

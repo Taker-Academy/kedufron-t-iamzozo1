@@ -106,6 +106,17 @@ function is_empty(panier) {
     return true;
 }
 
+function get_cart_cost() {
+    let panier = JSON.parse(localStorage.getItem('panier'));
+    let total_price = 0;
+
+    if (panier == null || panier.length == 0)
+        return total_price;
+    for (let i = 0; i <= localStorage.length; i++)
+        total_price += panier[i].amount * panier[i].price;
+    return total_price.toFixed(2);
+}
+
 function is_good_page(page) {
     return window.location.pathname === page;
 }
@@ -117,6 +128,7 @@ function display_good_ids() {
     let totalCountSpan;
     let articleCount;
     let priceSpan;
+    let cartTotalSpan;
 
     if (!is_good_page("/panier.html"))
         return;
@@ -131,16 +143,16 @@ function display_good_ids() {
             show_element("article-" + panier[i].id);
         else
             hide_element("article-" + panier[i].id);
-        console.log("aùount:", panier[i].amount, "| id=", panier[i].id);
         articleCountSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-count");
         totalCountSpan = document.querySelector("#article-" + panier[i].id +" > div > p > #total-count");
         priceSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-price");
         articleCount = get_article_nb(panier[i].id);
         articleCountSpan.textContent = articleCount;
-        priceSpan.textContent = panier[i].price + "€";
-        totalCountSpan.textContent = articleCount * panier[i].price + "€";
+        priceSpan.textContent = panier[i].price.toFixed(2) + "€";
+        totalCountSpan.textContent = (articleCount * panier[i].price).toFixed(2) + "€";
     }
-        
+    cartTotalSpan = document.getElementById("command-cost");
+    cartTotalSpan.textContent = get_cart_cost();
 }
 
 //interactc with the API
@@ -154,6 +166,7 @@ function create_command(orderDetails) {
             console.log('Order created successfully:', command_id);
             alert("Commande passée avec succès.\nNuméro de commande: " + command_id);
             empty_cart();
+            display_good_ids();
         })
         .catch(error => {
             alert("Erreur dans la création de la commande.");
@@ -187,19 +200,14 @@ function get_cart() {
 //get the information about the client
 function handleFormSubmit(event) {
     event.preventDefault();
-
-    // Get form data
     const formData = {
         name: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
         address: document.getElementById('address').value
     };
 
-    // Do something with the form data (e.g., send it to a server)
     console.log("Form data:", formData);
     create_command(formData);
-
-    // Reset the form after submission (optional)
     document.getElementById('contactForm').reset();
 }
 
@@ -209,18 +217,13 @@ function setupFormEventListener() {
     contactForm.addEventListener('submit', handleFormSubmit);
 }
 
-// Wait for the DOM content to load before attaching event listener
-document.addEventListener("DOMContentLoaded", setupFormEventListener);
-
-
 window.onload = function() {
     if (is_good_page("/panier.html")) {
         display_good_ids();
         console.log("before waiting event");
-        document.addEventListener("DOMContentLoaded", setupFormEventListener);
     }
 };
 
+document.addEventListener("DOMContentLoaded", setupFormEventListener);
 
-//need to add total price
 //could add total price on every page too

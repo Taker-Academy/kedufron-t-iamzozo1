@@ -44,6 +44,13 @@ function remove_one(element_id) {
     return false;
 }
 
+//clear the local storage
+function empty_cart()
+{
+    localStorage.clear();
+    return true;
+}
+
 //add a new element in the cart
 function newElement(id, name, price, img) {
     let new_product = {
@@ -139,18 +146,14 @@ function display_good_ids() {
 //interactc with the API
 function create_command(orderDetails) {
     const url = 'https://api.kedufront.juniortaker.com/order/';
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderDetails)
-    };
 
     axios.post(url, orderDetails)
         .then(response => {
-            console.log('Order created successfully:', response.data);
-            alert("Commande passée avec succès.")
+            const command_id = response.data.command_id
+            hide_element("contactForm");
+            console.log('Order created successfully:', command_id);
+            alert("Commande passée avec succès.\nNuméro de commande: " + command_id);
+            empty_cart();
         })
         .catch(error => {
             alert("Erreur dans la création de la commande.");

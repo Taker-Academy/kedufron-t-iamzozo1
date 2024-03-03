@@ -303,4 +303,42 @@ footer {
     .description {
         padding: 2% 12%;
     }
+    /* cart page */
+    .panier-container {
+        flex-direction: column;
+        padding: 10%;
+    }
+    .article-side {
+        overflow: hidden;
+        width: 100%;
+        border: solid 3px black;
+        border-bottom: none;
+        border-top-right-radius: 15px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 0px;
+    }
+    #mug-shop-logo-cart {
+        display: none;
+    }
+    .buy-container {
+        flex-direction: column;
+        width: 100%;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        border-top-right-radius: 0px;
+        border-top: none;
+        padding-top: 5%;
+    }
+    .panier-item {
+        flex-direction: column;
+        font-size: 1.5em;
+        justify-content: center;
+    }
+    .panier-item > img {
+        max-width: 100%;
+        height: auto;
+    }
+    .cart-item-title {
+        font-size: 1.6em;
+    }
   }

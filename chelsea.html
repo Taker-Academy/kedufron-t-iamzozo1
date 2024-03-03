@@ -12,7 +12,7 @@
     <nav class="container">
         <a href="index.html"><img src="assets/logos/mug-shop-logo.png" alt="company logo" class="inline"/></a>
         <div class="nav-right inline">
-            <a class="inline" href="index.html">Acceuil</a>
+            <a class="inline" href="index.html" id="acceuil">Acceuil</a>
             <a id="shopping-bag" class="inline" href="panier.html"><img src="assets/logos/shopping-bag.png" alt="shopping-bag"/></a>
         </div>
     </nav>
@@ -23,8 +23,7 @@
             <p>34.99€</p>
             <p>En stock</p>
             <div class="color-wrapper">
-                <div class="color-block"></div>
-                <!-- <p>Noir</p> -->
+                <div class="color-block" id="color-wrapper"></div>
             </div>
             <button id="buy" onclick="ajouterAuPanier(newElement(CHELSEA, 'chelsea-mug', 34.99, 'assets/pictures/chelsea-mug.jpg'))">Ajouter au panier</button>
         </div>

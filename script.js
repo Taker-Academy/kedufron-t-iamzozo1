@@ -84,10 +84,7 @@ function show_element(id) {
 
     if (element == null)
         return;
-    if (id == "empty-cart")
-        element.style.display = "block";
-    else
-        element.style.display = "flex";
+    element.style.display = "flex";
 }
 
 function hide_element(id) {
@@ -112,8 +109,10 @@ function get_cart_cost() {
 
     if (panier == null || panier.length == 0)
         return total_price;
-    for (let i = 0; i <= localStorage.length; i++)
+    for (let i = 0; i <= localStorage.length; i++) {
+        console.log("this is i:" + i);
         total_price += panier[i].amount * panier[i].price;
+    }
     return total_price.toFixed(2);
 }
 
@@ -134,10 +133,10 @@ function display_good_ids() {
         return;
     if (is_empty(panier)) {
         show_element("empty-cart");
-    }
-    if (panier == null)
+        hide_element("article-side");
+        hide_element("buy-wrapper");
         return;
-    show_element("buy-wrapper");
+    }
     for (let i = 0; i < panier.length; i++) {
         if (panier[i].amount > 0)
             show_element("article-" + panier[i].id);
@@ -153,6 +152,7 @@ function display_good_ids() {
     }
     cartTotalSpan = document.getElementById("command-cost");
     cartTotalSpan.textContent = get_cart_cost();
+    show_element("buy-wrapper");
 }
 
 //interactc with the API
@@ -227,3 +227,4 @@ window.onload = function() {
 document.addEventListener("DOMContentLoaded", setupFormEventListener);
 
 //could add total price on every page too
+// add alert before deleting item from the cart

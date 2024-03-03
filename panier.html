@@ -22,35 +22,37 @@
             <img src="assets/logos/sad.png" alt="sad emoji"/>
             <h2>Aucun élément dans votre panier</h2>
         </div>
-        <div class="panier-item" id="article-1">
-            <img src="assets/pictures/arsenal-mug.jpg" alt="arsenal mug picture"/>
-            <div>
-                <p class="cart-item-title">Arsenal Mug</p>
-                <p>Quantité: <span id="article-count">0</span></p>
-                <div class="quantity-selector">
-                    <button onclick="ajouterAuPanier(newElement(ARSENAL, 'arsenal mug', 34.99, 'assets/pictures/arsenal-mug.jpg'))"><img src="assets/logos/plus.png" alt="logo plus"/></button>
-                    <button onclick="remove_one(ARSENAL)"><img id="rm-button-1" src="assets/logos/minus.png" alt="logo minus"/></button>
+        <div class="article-side" id="article-side">
+            <div class="panier-item" id="article-1">
+                <img src="assets/pictures/arsenal-mug.jpg" alt="arsenal mug picture"/>
+                <div>
+                    <p class="cart-item-title">Arsenal Mug</p>
+                    <p>Quantité: <span id="article-count">0</span></p>
+                    <div class="quantity-selector">
+                        <button onclick="ajouterAuPanier(newElement(ARSENAL, 'arsenal mug', 34.99, 'assets/pictures/arsenal-mug.jpg'))"><img src="assets/logos/plus.png" alt="logo plus"/></button>
+                        <button onclick="remove_one(ARSENAL)"><img id="rm-button-1" src="assets/logos/minus.png" alt="logo minus"/></button>
+                    </div>
+                    <p>Prix à l'unité: <span id="article-price">0</span></p>
+                    <p>Total: <span id="total-count">0</span></p>
                 </div>
-                <p>Prix à l'unité: <span id="article-price">0</span></p>
-                <p>Total: <span id="total-count">0</span></p>
             </div>
-        </div>
-        <div class="panier-item" id="article-2">
-            <img src="assets/pictures/chelsea-mug.jpeg" alt="chelsea mug picture"/>
-            <div>
-                <p class="cart-item-title">Chelsea Mug</p>
-                <p>Quantité: <span id="article-count">0</span></p>
-                <div class="quantity-selector">
-                    <button onclick="ajouterAuPanier(newElement(CHELSEA, 'arsenal mug', 34.99, 'assets/pictures/chelsea-mug.jpg'))"><img src="assets/logos/plus.png" alt="logo plus"/></button>
-                    <button onclick="remove_one(CHELSEA)"><img id="rm-button-2" src="assets/logos/minus.png" alt="logo minus"/></button>
+            <div class="panier-item" id="article-2">
+                <img src="assets/pictures/chelsea-mug.jpeg" alt="chelsea mug picture"/>
+                <div>
+                    <p class="cart-item-title">Chelsea Mug</p>
+                    <p>Quantité: <span id="article-count">0</span></p>
+                    <div class="quantity-selector">
+                        <button onclick="ajouterAuPanier(newElement(CHELSEA, 'arsenal mug', 34.99, 'assets/pictures/chelsea-mug.jpg'))"><img src="assets/logos/plus.png" alt="logo plus"/></button>
+                        <button onclick="remove_one(CHELSEA)"><img id="rm-button-2" src="assets/logos/minus.png" alt="logo minus"/></button>
+                    </div>
+                    <p>Prix à l'unité: <span id="article-price">0</span></p>
+                    <p>Total: <span id="total-count">0</span></p>
                 </div>
-                <p>Prix à l'unité: <span id="article-price">0</span></p>
-                <p>Total: <span id="total-count">0</span></p>
             </div>
         </div>
         <div class="buy-container" id="buy-wrapper">
             <h3>Total <span id="command-cost">0</span>€</h3>
-            <button onclick="show_element('contactForm')">Passer au paiement</button>
+            <button onclick="show_element('contactForm')">Payer</button>
         </div>
         <form id="contactForm" class="data-form">
             <img src="assets/logos/mug-shop-logo.png" alt="mug shop logo"/>

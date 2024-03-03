@@ -341,4 +341,14 @@ footer {
     .cart-item-title {
         font-size: 1.6em;
     }
+    .data-form {
+        margin: auto 10vw;
+        width: auto;
+    }
+    #cart-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
   }

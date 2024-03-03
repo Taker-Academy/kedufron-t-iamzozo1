@@ -228,3 +228,4 @@ document.addEventListener("DOMContentLoaded", setupFormEventListener);
 
 //could add total price on every page too
 // add alert before deleting item from the cart
+// say that the item was added in the cart

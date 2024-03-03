@@ -15,7 +15,7 @@ img {
 }
 
 div {
-    border: solid 1px;
+    /* border: solid 1px; */
 }
 
 .container {
@@ -147,6 +147,8 @@ nav {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     overflow: hidden;
+    border-right: none;
+    border-bottom: none;
 }
 
 .data-form {
@@ -172,17 +174,27 @@ nav {
 .panier-item {
     display: flex;
     font-size: 1.8em;
+    border-bottom: solid 3px;
 }
 
 .panier-item > img {
-    max-width: 15%;
+    max-width: 25%;
     height: 15vw;
     display: inline;
 }
 
 .panier-item > div {
+    margin-left: 10%;
     display: inline;
+    font-weight: bold;
 }
+
+.panier-item > div > p {
+    margin: 6%;
+}
+/* .panier-item > div > .cart-item-title {
+    font-weight: bold;
+} */
 
 .buy-container {
     display: flex;
@@ -210,6 +222,7 @@ nav {
     font-weight: bold;
     background-color: black;
     height: 20%;
+    max-height: 7vh;
     border-radius: 40px;
 }
 
@@ -218,9 +231,13 @@ nav {
     background-color: black;
 }
 
+.quantity-selector {
+    padding: 0;
+    margin: 3%;
+}
 .quantity-selector > img, .quantity-selector > button {
-    max-width: 5%;
-    max-height: 1%;
+    max-width: 4em;
+    max-height: 100%;
     background-color: transparent;
     border: none;
     margin: none;

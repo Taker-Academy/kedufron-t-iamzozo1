@@ -67,21 +67,6 @@ function empty_cart()
     return true;
 }
 
-//return the quantity of the article with the given id
-/*function get_article_nb(id)
-{
-    let panier = JSON.parse(localStorage.getItem('panier'));
-
-    if (panier == null)
-        return 0;
-    for (let i = 0; i < panier.length; i++) {
-        if (panier[i].id == id) {
-            return panier[i].amount;
-        }
-    }
-    return 0;
-}*/
-
 function show_element(id) {
     let element = document.getElementById(id);
 
@@ -121,31 +106,6 @@ function get_cart_cost() {
 
 function is_good_page(page) {
     return window.location.pathname === page;
-}
-
-function get_only_article_id(panier)
-{
-    return panier[0].id;
-}
-
-function set_good_size(panier) {
-    const cart_total = document.getElementById("buy-wrapper");
-    const element = document.getElementById("article-" + get_only_article_id(panier));
-    let size = cart_total.offsetHeight;
-    element.style.height = size + 100;
-    console.log("size changed");
-    return true;
-}
-
-function get_nb_of_diff_article(panier)
-{
-    let art_nb = 0;
-
-    for (let i = 0; i < panier.length; i++) {
-        if (panier[i].amount > 0)
-            art_nb++;
-    }
-    return art_nb;
 }
 
 function createCartArticleHTML(article) {
@@ -197,8 +157,6 @@ function display_good_ids() {
         priceSpan.textContent = panier[i].item.price.toFixed(2) + "€";
         totalCountSpan.textContent = (articleCount * panier[i].item.price).toFixed(2) + "€";
     }
-    /*if (get_nb_of_diff_article(panier) == 1)
-        set_good_size(panier);*/
     cartTotalSpan = document.getElementById("command-cost");
     cartTotalSpan.textContent = get_cart_cost();
     show_element("buy-wrapper");
@@ -227,23 +185,6 @@ function create_command(orderDetails) {
                 console.error('Error creating order:', error.message);
             }
         });
-}
-
-function get_cart() {
-    let panier = JSON.parse(localStorage.getItem('panier'));
-    let cart;
-    let cart_item = {
-        id: 0,
-        amount: 0
-    }
-    if (panier == null)
-        return panier;
-    for (let i = 0; i < panier.length; i++) {
-        cart_item.id = panier[i].id;
-        cart_item.amount = panier[i].amount;
-        cart.push(cart_item);
-    }
-    return cart;
 }
 
 //get the information about the client

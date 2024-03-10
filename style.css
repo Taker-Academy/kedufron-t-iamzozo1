@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Raleway';
-    src: url('assets/font/Raleway-VariableFont_wght.ttf') format('woff2'), /* Path to the font file */
+    src: url('assets/font/Raleway-VariableFont_wght.ttf') format('woff2'),
 }
 
 body {
@@ -14,12 +14,13 @@ img {
     max-height: 100%;
 }
 
-div {
-    /* border: solid 1px; */
-}
-
 .container {
     display: flex;
+}
+
+.index-wrap {
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .inline {
@@ -67,7 +68,8 @@ nav {
 .item {
     display: inline-flex;
     flex-direction: column;
-    width: 25vw;
+    justify-content: space-around;
+    width: 16vw;
     padding: 1vh 4%;
     margin: 3vh 4vh;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -95,6 +97,7 @@ nav {
 }
 .precise-item > img {
     max-width: 40%;
+    max-height: 55vh;
 }
 .precise-item > div {
     width: 30vw;
@@ -185,6 +188,7 @@ nav {
 .panier-item > img {
     max-width: 25%;
     height: 15vw;
+    margin-left: 5%;
     display: inline;
 }
 
@@ -245,7 +249,6 @@ nav {
     max-height: 100%;
     background-color: transparent;
     border: none;
-    margin: none;
 }
 
 #empty-cart {

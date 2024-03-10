@@ -15,7 +15,7 @@ function element_exist(panier, element_id) {
 function ajouterAuPanier(id = null) {
     let panier = JSON.parse(localStorage.getItem('panier')) || [];
     let element;
-    LET articleSideElement;
+    let articleSideElement;
 
     if (id == null) //if no pram is given i take the last element in local storage 
         element = JSON.parse(localStorage.getItem('last_article')) 
@@ -47,8 +47,9 @@ function ajouterAuPanier(id = null) {
 function remove_one(element_id) {
     let panier = JSON.parse(localStorage.getItem('panier'));
 
+    console.log("element id", element_id)
     for (let i = 0; i < panier.length; i++) {
-        if (panier[i].id == element_id) {
+        if (panier[i].item._id == element_id) {
             panier[i].amount -= 1;
             localStorage.setItem('panier', JSON.stringify(panier));
             display_good_ids();
@@ -115,7 +116,7 @@ function createCartArticleHTML(article) {
                 <p>Quantité: <span id="article-count">${article.amount}</span></p>
                 <div class="quantity-selector">
                     <button onclick="ajouterAuPanier(${article.item._id})"><img src="assets/logos/plus.png" alt="logo plus"/></button>
-                    <button onclick="remove_one(${article.id})"><img src="assets/logos/minus.png" alt="logo minus"/></button>
+                    <button onclick="remove_one(${article.item._id})"><img src="assets/logos/minus.png" alt="logo minus"/></button>
                 </div>
                 <p>Prix à l'unité: <span id="article-price">${article.item.price.toFixed(2)}</span></p>
                 <p>Total: <span id="total-count">${(article.amount * article.item.price).toFixed(2)}</span></p>

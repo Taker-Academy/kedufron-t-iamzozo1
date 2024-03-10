@@ -151,7 +151,7 @@ function get_nb_of_diff_article(panier)
 function createCartArticleHTML(article) {
     return `
         <div class="panier-item" id="article-${article.item._id}">
-            <img src="${article.item.image}" alt="${article.item.name}"/>
+            <img src="https://api.kedufront.juniortaker.com/static/img/${article.item.image}.png" alt="${article.item.name}"/>
             <div>
                 <p class="cart-item-title">${article.item.name}</p>
                 <p>Quantité: <span id="article-count">${article.amount}</span></p>
@@ -266,12 +266,8 @@ function setupFormEventListener() {
 }
 
 async function getPictureUrl(itemId) {
-    try {
-        const response = await axios.get(`https://api.kedufront.juniortaker.com/item/picture/${itemId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching item picture:', error);
-    }
+    
+    return `https://api.kedufront.juniortaker.com/static/img/${itemId}.png`;
 }
 
 //get all the articles with the API
@@ -287,7 +283,7 @@ async function getArticles() {
 function createArticleHTML(article) {
     return `
     <a href="article.html" class="item" id="article-${article._id}">
-        <img src="" alt="${article.name}" id="image-${article._id}"/>
+        <img src="https://api.kedufront.juniortaker.com/static/img/${article.image}.png" alt="${article.name}" id="image-${article._id}"/>
         <div class="info">
             <h3>${article.name}</h3>
             <p>${article.price}€</p>
@@ -314,6 +310,7 @@ function attachItemClickListeners(itemId) {
     const item = document.getElementById(`article-${itemId}`);
     if (item) {
         item.addEventListener('click', function() {
+                console.log("there")
             let last_article = getArticleById(itemId);
             localStorage.setItem('last_article', JSON.stringify(last_article));
         });
@@ -329,7 +326,7 @@ function displayArticleInfo() {
         titleElement.textContent = lastArticle.name;
 
         const pictureElement = document.getElementById('item-page-picture');
-        pictureElement.src = lastArticle.image;
+        pictureElement.src = "https://api.kedufront.juniortaker.com/static/img/" + lastArticle.image + ".png";
 
         const priceElement = document.getElementById('item-page-price');
         priceElement.textContent = lastArticle.price + '€';

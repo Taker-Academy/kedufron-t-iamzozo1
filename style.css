@@ -284,6 +284,9 @@ footer {
     #acceuil {
         display: none;
     }
+    #articles {
+        flex-direction: column;
+    }
     .item {
         width: 95%;
         max-width: 75vw;

@@ -1,6 +1,3 @@
-const ARSENAL = 1;
-const CHELSEA = 2;
-
 //check if the given element id is present in the cart
 function element_exist(panier, element_id) {
     console.log("is to find", element_id)
@@ -18,6 +15,7 @@ function element_exist(panier, element_id) {
 function ajouterAuPanier(id = null) {
     let panier = JSON.parse(localStorage.getItem('panier')) || [];
     let element;
+    LET articleSideElement;
 
     if (id == null) //if no pram is given i take the last element in local storage 
         element = JSON.parse(localStorage.getItem('last_article')) 
@@ -36,7 +34,7 @@ function ajouterAuPanier(id = null) {
             item: element 
         };
         if (is_good_page('/panier.html')) {
-            let articleSideElement = document.getElementById("article-side");
+            articleSideElement = document.getElementById("article-side");
             articleSideElement.innerHTML += createCartArticleHTML(PanierItem);
         }
         panier.push(PanierItem);
@@ -165,10 +163,11 @@ function display_good_ids() {
 //interactc with the API
 function create_command(orderDetails) {
     const url = 'https://api.kedufront.juniortaker.com/order/';
+    let command_id;
 
     axios.post(url, orderDetails)
         .then(response => {
-            const command_id = response.data.command_id
+            command_id = response.data.command_id
             hide_element("contactForm");
             console.log('Order created successfully:', command_id);
             alert("Commande passée avec succès.\nNuméro de commande: " + command_id);
@@ -203,6 +202,7 @@ function handleFormSubmit(event) {
 // Function to setup event listener for form submission
 function setupFormEventListener() {
     const contactForm = document.getElementById('contactForm');
+    
     contactForm.addEventListener('submit', handleFormSubmit);
 }
 
@@ -213,8 +213,10 @@ async function getPictureUrl(itemId) {
 
 //get all the articles with the API
 async function getArticles() {
+    let response;
+
     try {
-        const response = await axios.get('https://api.kedufront.juniortaker.com/item/');
+        response = await axios.get('https://api.kedufront.juniortaker.com/item/');
         return response.data;
     } catch (error) {
         console.error('Error fetching articles:', error);
@@ -249,10 +251,12 @@ function addItemListToStorage(articles) {
 //assign the function that stock the element in the local storage
 function attachItemClickListeners(itemId) {
     const item = document.getElementById(`article-${itemId}`);
+    let last_article;
+    
     if (item) {
         item.addEventListener('click', function() {
                 console.log("there")
-            let last_article = getArticleById(itemId);
+            last_article = getArticleById(itemId);
             localStorage.setItem('last_article', JSON.stringify(last_article));
         });
     }
@@ -261,18 +265,22 @@ function attachItemClickListeners(itemId) {
 // print good info on article.html page
 function displayArticleInfo() {
     const lastArticle = JSON.parse(localStorage.getItem('last_article'));
-
+    let titleElement;
+    let pictureElement;
+    let priceElement;
+    let descriptionElement;
+    
     if (lastArticle) {
-        const titleElement = document.getElementById('item-page-title');
+        titleElement = document.getElementById('item-page-title');
         titleElement.textContent = lastArticle.name;
 
-        const pictureElement = document.getElementById('item-page-picture');
+        pictureElement = document.getElementById('item-page-picture');
         pictureElement.src = "https://api.kedufront.juniortaker.com/static/img/" + lastArticle.image + ".png";
 
-        const priceElement = document.getElementById('item-page-price');
+        priceElement = document.getElementById('item-page-price');
         priceElement.textContent = lastArticle.price + '€';
 
-        const descriptionElement = document.getElementById('item-page-description');
+        descriptionElement = document.getElementById('item-page-description');
         descriptionElement.textContent = lastArticle.description;
     } else {
         console.error('Error: last_article not found in local storage');
@@ -283,14 +291,17 @@ function displayArticleInfo() {
 async function displayArticles() {
     const articlesContainer = document.getElementById('articles');
     const articles = await getArticles();
-    
+    let articleHTML;
+    let imgUrl;
+    let imgElement;
+
     addItemListToStorage(articles);
     if (articles) {
         articles.forEach(async article => {
-            const articleHTML = createArticleHTML(article);
+            articleHTML = createArticleHTML(article);
             articlesContainer.innerHTML += articleHTML; //add item html to the container
-            const imgElement = document.getElementById(`image-${article._id}`); //get the image element
-            const imgUrl = await getPictureUrl(article._id);
+            imgElement = document.getElementById(`image-${article._id}`); //get the image element
+            imgUrl = await getPictureUrl(article._id);
             imgElement.src = imgUrl;
             attachItemClickListeners(article._id); //add the function that keeps the last element in the storage to the element
         });

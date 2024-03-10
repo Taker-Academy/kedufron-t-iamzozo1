@@ -245,112 +245,14 @@ function setupFormEventListener() {
     contactForm.addEventListener('submit', handleFormSubmit);
 }
 
-async function getPictureUrl(itemId) {
-    try {
-        const response = await axios.get(`https://api.kedufront.juniortaker.com/item/picture/${itemId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching item picture:', error);
-    }
-}
-
-//get all the articles with the API
-async function getArticles() {
-    try {
-        const response = await axios.get('https://api.kedufront.juniortaker.com/item/');
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching articles:', error);
-    }
-}
-
-function createArticleHTML(article) {
-    return `
-    <a href="article.html" class="item" id="article-${article._id}">
-        <img src="" alt="${article.name}" id="image-${article._id}"/>
-        <div class="info">
-            <h3>${article.name}</h3>
-            <p>${article.price}€</p>
-        </div>
-    </a>
-    `;
-}
-function getArticleById(id) {
-    const itemList = JSON.parse(localStorage.getItem('item_list'));
-    
-    if (Array.isArray(itemList)) {
-        return itemList.find(article => article._id === id);
-    } else {
-        return null;
-    }
-}
-
-function addItemListToStorage(articles) {
-    localStorage.setItem('item_list', JSON.stringify(articles));
-}
-
-//assign the function that stock the element in the local storage
-function attachItemClickListeners(itemId) {
-    const item = document.getElementById(`article-${itemId}`);
-    if (item) {
-        item.addEventListener('click', function() {
-            let last_article = getArticleById(itemId);
-            localStorage.setItem('last_article', JSON.stringify(last_article));
-        });
-    }
-}
-
-function displayArticleInfo() {
-    const lastArticle = JSON.parse(localStorage.getItem('last_article'));
-
-    if (lastArticle) {
-        const titleElement = document.getElementById('item-page-title');
-        titleElement.textContent = lastArticle.name;
-
-        const pictureElement = document.getElementById('item-page-picture');
-        pictureElement.src = lastArticle.image;
-
-        const priceElement = document.getElementById('item-page-price');
-        priceElement.textContent = lastArticle.price + '€';
-
-        const descriptionElement = document.getElementById('item-page-description');
-        descriptionElement.textContent = lastArticle.description;
-    } else {
-        console.error('Error: last_article not found in local storage');
-    }
-}
-
-//display the list of items given by the API
-async function displayArticles() {
-    const articlesContainer = document.getElementById('articles');
-    const articles = await getArticles();
-    
-    addItemListToStorage(articles);
-    if (articles) {
-        articles.forEach(async article => {
-            const articleHTML = createArticleHTML(article);
-            articlesContainer.innerHTML += articleHTML; //add item html to the container
-            const imgElement = document.getElementById(`image-${article._id}`); //get the image element
-            const imgUrl = await getPictureUrl(article._id);
-            imgElement.src = imgUrl;
-            attachItemClickListeners(article._id); //add the function that keeps the last element in the storage to the element
-        });
-    }
-}
-
 window.onload = function() {
     if (is_good_page("/panier.html")) {
         display_good_ids();
-        setupFormEventListener();  
+        console.log("before waiting event");
     }
-    if (is_good_page("/index.html")) {
-        displayArticles();
-        attachItemClickListeners();
-    }
-    if (is_good_page("/article.html")) {
-        displayArticleInfo()
-}
 };
+
+document.addEventListener("DOMContentLoaded", setupFormEventListener);
 
 //could add total price on every page too
 // add alert before deleting item from the cart

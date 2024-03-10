@@ -3,28 +3,44 @@ const CHELSEA = 2;
 
 //check if the given element id is present in the cart
 function element_exist(panier, element_id) {
+    console.log("is to find", element_id)
     if (panier.length <= 0)
         return 0;
     for (let i = 0; i < panier.length; i++) {
-        if (panier[i].id == element_id)
+        console.log("item id: ", panier[i].item._id, "check id", element_id)
+        if (panier[i].item._id == element_id)
             return 1;
     }
     return 0;
 }
 
 //add an item in the cart in the local storage
-function ajouterAuPanier(element) {
+function ajouterAuPanier(id = null) {
     let panier = JSON.parse(localStorage.getItem('panier')) || [];
+    let element;
 
-    console.log("adding this element:", element.id);
-    if (element_exist(panier, element.id)) {
+    if (id == null) //if no pram is given i take the last element in local storage 
+        element = JSON.parse(localStorage.getItem('last_article')) 
+    else
+        element = getArticleById(id);
+    if (element_exist(panier, element._id)) {
         for (let i = 0; i < panier.length; i++) {
-            if (panier[i].id == element.id) {
+            if (panier[i].item._id == element._id) {
                 panier[i].amount += 1;
             }
         }
-    } else
-        panier.push(element);
+    } else { 
+        let PanierItem = {
+            amount: 1,
+            id: element.id,
+            item: element 
+        };
+        if (is_good_page('/panier.html')) {
+            let articleSideElement = document.getElementById("article-side");
+            articleSideElement.innerHTML += createCartArticleHTML(PanierItem);
+        }
+        panier.push(PanierItem);
+    }
     localStorage.setItem('panier', JSON.stringify(panier));
     display_good_ids();
 }
@@ -51,21 +67,8 @@ function empty_cart()
     return true;
 }
 
-//add a new element in the cart
-function newElement(id, name, price, img) {
-    let new_product = {
-        id: id,
-        name: name,
-        price: price,
-        createdIn: new Date(),
-        image: img,
-        amount: 1
-    };
-    return new_product;
-}
-
 //return the quantity of the article with the given id
-function get_article_nb(id)
+/*function get_article_nb(id)
 {
     let panier = JSON.parse(localStorage.getItem('panier'));
 
@@ -77,7 +80,7 @@ function get_article_nb(id)
         }
     }
     return 0;
-}
+}*/
 
 function show_element(id) {
     let element = document.getElementById(id);
@@ -109,11 +112,11 @@ function get_cart_cost() {
 
     if (panier == null || panier.length == 0)
         return total_price;
-    for (let i = 0; i <= localStorage.length; i++) {
-        console.log("this is i:" + i);
-        total_price += panier[i].amount * panier[i].price;
+    for (let i = 0; i < localStorage.length; i++) {
+        if (panier[i])
+            total_price += panier[i].amount * panier[i].item.price;
     }
-    return total_price.toFixed(2);
+    return total_price.toFixed(2); //return with 2 numbers after the coma
 }
 
 function is_good_page(page) {
@@ -145,6 +148,24 @@ function get_nb_of_diff_article(panier)
     return art_nb;
 }
 
+function createCartArticleHTML(article) {
+    return `
+        <div class="panier-item" id="article-${article.item._id}">
+            <img src="${article.item.image}" alt="${article.item.name}"/>
+            <div>
+                <p class="cart-item-title">${article.item.name}</p>
+                <p>Quantité: <span id="article-count">${article.amount}</span></p>
+                <div class="quantity-selector">
+                    <button onclick="ajouterAuPanier(${article.item._id})"><img src="assets/logos/plus.png" alt="logo plus"/></button>
+                    <button onclick="remove_one(${article.id})"><img src="assets/logos/minus.png" alt="logo minus"/></button>
+                </div>
+                <p>Prix à l'unité: <span id="article-price">${article.item.price.toFixed(2)}</span></p>
+                <p>Total: <span id="total-count">${(article.amount * article.item.price).toFixed(2)}</span></p>
+            </div>
+        </div>
+    `;
+}
+
 // function to display only the articles in the cart in the 'panier pager'
 function display_good_ids() {
     let panier = JSON.parse(localStorage.getItem('panier'));
@@ -167,17 +188,17 @@ function display_good_ids() {
             show_element("article-" + panier[i].id);
         else
             hide_element("article-" + panier[i].id);
-        articleCountSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-count");
-        totalCountSpan = document.querySelector("#article-" + panier[i].id +" > div > p > #total-count");
-        priceSpan = document.querySelector("#article-" + panier[i].id + " > div > p > #article-price");
-        articleCount = get_article_nb(panier[i].id);
+        articleCountSpan = document.querySelector("#article-" + panier[i].item._id + " > div > p > #article-count");
+        totalCountSpan = document.querySelector("#article-" + panier[i].item._id +" > div > p > #total-count");
+        priceSpan = document.querySelector("#article-" + panier[i].item._id + " > div > p > #article-price");
+        console.log("this is i", panier[i].amount)
+        articleCount = panier[i].amount;
         articleCountSpan.textContent = articleCount;
-        priceSpan.textContent = panier[i].price.toFixed(2) + "€";
-        totalCountSpan.textContent = (articleCount * panier[i].price).toFixed(2) + "€";
+        priceSpan.textContent = panier[i].item.price.toFixed(2) + "€";
+        totalCountSpan.textContent = (articleCount * panier[i].item.price).toFixed(2) + "€";
     }
-    console.log("panier lenght: ", panier.length);
-    if (get_nb_of_diff_article(panier) == 1)
-        set_good_size(panier);
+    /*if (get_nb_of_diff_article(panier) == 1)
+        set_good_size(panier);*/
     cartTotalSpan = document.getElementById("command-cost");
     cartTotalSpan.textContent = get_cart_cost();
     show_element("buy-wrapper");
@@ -234,7 +255,6 @@ function handleFormSubmit(event) {
         address: document.getElementById('address').value
     };
 
-    console.log("Form data:", formData);
     create_command(formData);
     document.getElementById('contactForm').reset();
 }
@@ -300,6 +320,7 @@ function attachItemClickListeners(itemId) {
     }
 }
 
+// print good info on article.html page
 function displayArticleInfo() {
     const lastArticle = JSON.parse(localStorage.getItem('last_article'));
 
@@ -338,8 +359,21 @@ async function displayArticles() {
     }
 }
 
+function addCartHtml() {
+    let panier = JSON.parse(localStorage.getItem('panier')) || [];
+    let articleSideElement;
+
+    if (panier.length <= 0)
+        return;
+    for (let i = 0; i < panier.length; i++) {
+        articleSideElement = document.getElementById("article-side");
+        articleSideElement.innerHTML += createCartArticleHTML(panier[i]);
+    }
+}
+
 window.onload = function() {
     if (is_good_page("/panier.html")) {
+        addCartHtml();
         display_good_ids();
         setupFormEventListener();  
     }
@@ -348,7 +382,7 @@ window.onload = function() {
         attachItemClickListeners();
     }
     if (is_good_page("/article.html")) {
-        displayArticleInfo()
+        displayArticleInfo();
 }
 };
 

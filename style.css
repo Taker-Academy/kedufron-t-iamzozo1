@@ -136,8 +136,12 @@ nav {
     flex-direction: row;
 }
 
-.panier-container > #buy-wrapper, .panier-container > #empty-cart, .article-side > div {
+.panier-container > #empty-cart {
     display: none;
+}
+
+.panier-container > #buy-wrapper, .article-side > div {
+    display: flex;
 }
 
 .article-side {
